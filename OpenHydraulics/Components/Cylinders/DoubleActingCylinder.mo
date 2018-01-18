@@ -185,6 +185,8 @@ model DoubleActingCylinder
     n_ports=2)
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
 
+  Real pos = piston.s/strokeLength;
+
   extends OpenHydraulics.Interfaces.PartialFluidComponent;
 
 protected
@@ -310,12 +312,12 @@ equation
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent={{100,10},{0,-10}},
+          extent=DynamicSelect({{100,10},{0,-10}},{{100,10},{-80+pos*160,-10}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent={{-18,39},{0,-39}},
+          extent=DynamicSelect({{-18,39},{0,-39}},{{-88+pos*158,39},{-70+pos*158,-39}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
@@ -351,7 +353,7 @@ equation
           fillPattern=FillPattern.Solid,
           textString="%name"),
         Rectangle(
-          extent={{-34,18},{16,-18}},
+          extent=DynamicSelect({{-34,18},{16,-18}},{{0,0},{0,0}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
