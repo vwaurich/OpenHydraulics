@@ -86,7 +86,7 @@ equation
         Line(points={{-12,0},{-100,0}}, color={0,0,0}),
         Line(points={{100,0},{29,0}}, color={0,0,0}),
         Ellipse(
-          extent={{-11,16},{21,-16}},
+          extent=DynamicSelect({{-11,16},{21,-16}},if port_b.m_flow>0 then {{-34,16},{-2,-16}} else {{-11,16},{21,-16}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
@@ -109,6 +109,8 @@ equation
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid,
           textString="%name"),
-        Line(points={{-42,10},{-38,-10},{-34,10},{-30,-10},{-26,10},{-22,-10},
-              {-18,10},{-14,-10},{-10,10}}, color={0,0,0})}));
+        Line(points=DynamicSelect({{-42,10},{-38,-10},{-34,10},{-30,-10},{-26,10},{-22,-10},{-18,
+              10},{-14,-10},{-10,10}}, if port_b.m_flow>0 then {{-42,10},{-41,-10},{-40,10},{-39,-10},{-38,10},{-37,-10},{-36,
+              10},{-35,-10},{-34,10}} else {{-42,10},{-38,-10},{-34,10},{-30,-10},{-26,10},{-22,-10},{-18,
+              10},{-14,-10},{-10,10}}), color={0,0,0})}));
 end CheckValve;
