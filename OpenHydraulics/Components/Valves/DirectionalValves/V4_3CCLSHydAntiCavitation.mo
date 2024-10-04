@@ -51,7 +51,7 @@ model V4_3CCLSHydAntiCavitation
         rotation=270)));
 
   Basic.VarPressureSource pressLS
-    annotation (Placement(transformation(extent={{-10,40},{10,60}})));
+    annotation (Placement(transformation(extent={{10,50},{30,70}})));
 
   extends
     OpenHydraulics.Components.Valves.DirectionalValves.BaseClasses.PartialValve4_3pos(
@@ -89,7 +89,8 @@ equation
   connect(reliefB2T.port_b, j4.port[7])    annotation (Line(points={{80,
           36},{80,28},{56,28},{56,-60},{40,-60},{40,-60}}, color={255,0,0}));
   connect(pressLS.port, portLS)
-    annotation (Line(points={{0,60},{0,80}}, color={255,0,0}));
+    annotation (Line(points={{20,70},{20,80},{0,80}},
+                                             color={255,0,0}));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{
             -100,-100},{100,100}}), graphics={
