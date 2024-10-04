@@ -34,7 +34,6 @@ model FluidPower2MechTrans
 
   extends Modelica.Mechanics.Translational.Interfaces.PartialCompliant;
   extends OpenHydraulics.Interfaces.NPort;
-protected
   parameter SI.Position s_relMin = -0.001
     "the s_rel value at which the volume is zero";
   Boolean empty "true when chamber reaches end of travel";

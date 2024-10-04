@@ -66,7 +66,7 @@ model VariableRestrictionSeriesValve
     tableOnFile=false,table=table,smoothness=smoothness)
     annotation (Placement(transformation(extent={{18,-32},{-2,-12}})));
 
-protected
+
   BaseClasses.LossFactorData data(
       D_a=D_nom,
       D_b=D_nom,

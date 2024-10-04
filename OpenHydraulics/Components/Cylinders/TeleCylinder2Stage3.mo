@@ -1,5 +1,5 @@
 within OpenHydraulics.Components.Cylinders;
-model TeleCylinder2Stage
+model TeleCylinder2Stage3
   import Modelica.Constants.pi;
 
   // the parameters
@@ -121,10 +121,10 @@ model TeleCylinder2Stage
     annotation (Placement(transformation(extent={{-62,-10},{-42,10}})));
 
   Basic.FluidPower2MechTrans air_side1(
-    A=0,
+    A=1e-3,
     stopStiffness=stopStiffness,
     stopDamping=stopDamping,
-    n_ports=1,
+    n_ports=2,
     p_init=p_init,
     maxPressure=maxPressure*10)
     annotation (Placement(transformation(extent={{-4,-10},{16,10}})));
@@ -184,9 +184,9 @@ model TeleCylinder2Stage
     n_ports=1,
     p_init=p_init,
     maxPressure=maxPressure*10)
-    annotation (Placement(transformation(extent={{-8,-40},{12,-20}})));
+    annotation (Placement(transformation(extent={{-6,-40},{14,-20}})));
   Basic.FluidPower2MechTrans air_side2(
-    A=0,
+    A=1e-3,
     stopStiffness=stopStiffness,
     stopDamping=stopDamping,
     n_ports=1,
@@ -195,6 +195,32 @@ model TeleCylinder2Stage
     annotation (Placement(transformation(extent={{44,-40},{64,-20}})));
   Modelica.Mechanics.Translational.Components.Rod stage2(L=stage2StrokeLength)
     annotation (Placement(transformation(extent={{14,30},{34,50}})));
+  BaseClasses.CylinderCushion cushionHead2(
+    cushionTable=if useCushionHead then cushionTableHead else [0,0.001;
+        stage1StrokeLength/1000,1; 1,1],
+    smoothness=smoothnessHead,
+    q_nom=q_nom,
+    dp_nom=dp_nom,
+    dp_relief=maxPressure*0.9)
+    annotation (Placement(transformation(extent={{38,-6},{58,14}})));
+  BaseClasses.CylinderCushion cushionHead1(
+    cushionTable=if useCushionHead then cushionTableHead else [0,0.001;
+        stage2StrokeLength/1000,1; 1,1],
+    smoothness=smoothnessHead,
+    q_nom=q_nom,
+    dp_nom=dp_nom,
+    dp_relief=maxPressure*0.9)
+    annotation (Placement(transformation(extent={{-6,-70},{14,-50}})));
+  Modelica.Mechanics.Translational.Components.Damper damper1(d=damping)
+    annotation (Placement(transformation(extent={{-6,-26},{14,-6}})));
+  BaseClasses.CylinderCushion cushionHead3(
+    cushionTable=if useCushionHead then cushionTableHead else [0,0.001;
+        stage1StrokeLength/1000,1; 1,1],
+    smoothness=smoothnessHead,
+    q_nom=q_nom,
+    dp_nom=dp_nom,
+    dp_relief=maxPressure*0.9)
+    annotation (Placement(transformation(extent={{44,-58},{64,-38}})));
 protected
   outer OpenHydraulics.Circuits.Environment environment;
 
@@ -283,21 +309,14 @@ equation
   connect(chamberStage1.flange_b, cushionHead.flange_b)
     annotation (Line(points={{-42,0},{-38,0},{-38,-50},{-42,-50}},
                                                  color={0,127,0}));
-  connect(air_side1.port[1], envSinkB.port) annotation (Line(points={{6,-0.05},{
-          6,70},{90,70},{90,60}}, color={255,0,0}));
   connect(damper.flange_b, stage1_cylinder.flange_a) annotation (Line(points={{-40,
           24},{-38,24},{-38,0},{-32,0}}, color={0,127,0}));
   connect(chamberStage2.flange_a, stage1_cylinder.flange_b) annotation (Line(
-        points={{-8,-30},{-10,-30},{-10,0},{-12,0}}, color={0,127,0}));
+        points={{-6,-30},{-10,-30},{-10,0},{-12,0}}, color={0,127,0}));
   connect(chamberStage2.flange_b, stage2_cylinder.flange_a)
-    annotation (Line(points={{12,-30},{20,-30}}, color={0,127,0}));
-  connect(jA.port[3], chamberStage2.port[1]) annotation (Line(points={{-40,
-          -79.6667},{-40,-66},{2,-66},{2,-30.05}},
-                                         color={255,0,0}));
+    annotation (Line(points={{14,-30},{20,-30}}, color={0,127,0}));
   connect(stage2_cylinder.flange_b, air_side2.flange_a)
     annotation (Line(points={{40,-30},{44,-30}}, color={0,127,0}));
-  connect(envSinkB.port, air_side2.port[1]) annotation (Line(points={{90,60},{90,
-          70},{118,70},{118,-30.05},{54,-30.05}}, color={255,0,0}));
   connect(stage2.flange_a, stage1_cylinder.flange_b)
     annotation (Line(points={{14,40},{-12,40},{-12,0}}, color={0,127,0}));
   connect(leakage_Head2Env.port_b, chamberStage1.port[2]) annotation (Line(
@@ -306,6 +325,35 @@ equation
           {60,-30},{60,40},{34,40}}, color={0,127,0}));
   connect(stage2_cylinder.flange_b, rod.flange_a) annotation (Line(points={{40,
           -30},{38,-30},{38,0},{70,0}}, color={0,127,0}));
+  connect(air_side1.port[1], cushionHead2.port_a) annotation (Line(points={{6,
+          -0.3125},{6,-14},{32,-14},{32,18},{48,18},{48,14}}, color={255,0,0}));
+  connect(cushionHead2.flange_a, air_side1.flange_a) annotation (Line(points={{
+          38,4},{36,4},{36,10},{-6,10},{-6,0},{-4,0}}, color={0,127,0}));
+  connect(air_side1.flange_b, cushionHead2.flange_b) annotation (Line(points={{
+          16,0},{22,0},{22,-2},{58,-2},{58,4}}, color={0,127,0}));
+  connect(cushionHead2.port_b, envSinkB.port) annotation (Line(points={{48,-6},
+          {52,-6},{52,-10},{90,-10},{90,60}}, color={255,0,0}));
+  connect(chamberStage2.port[1], cushionHead1.port_a)
+    annotation (Line(points={{4,-30.05},{4,-50}}, color={255,0,0}));
+  connect(cushionHead1.port_b, jA.port[3]) annotation (Line(points={{4,-70},{4,
+          -79.6667},{-40,-79.6667}}, color={255,0,0}));
+  connect(cushionHead1.flange_a, chamberStage2.flange_a) annotation (Line(
+        points={{-6,-60},{-12,-60},{-12,-30},{-6,-30}}, color={0,127,0}));
+  connect(cushionHead1.flange_b, chamberStage2.flange_b) annotation (Line(
+        points={{14,-60},{16,-60},{16,-30},{14,-30}}, color={0,127,0}));
+  connect(damper1.flange_a, chamberStage2.flange_a)
+    annotation (Line(points={{-6,-16},{-6,-30}}, color={0,127,0}));
+  connect(damper1.flange_b, chamberStage2.flange_b)
+    annotation (Line(points={{14,-16},{14,-30}}, color={0,127,0}));
+  connect(air_side2.port[1], cushionHead3.port_a)
+    annotation (Line(points={{54,-30.05},{54,-38}}, color={255,0,0}));
+  connect(cushionHead3.flange_a, air_side2.flange_a) annotation (Line(points={{
+          44,-48},{40,-48},{40,-62},{68,-62},{68,-16},{44,-16},{44,-30}}, color
+        ={0,127,0}));
+  connect(cushionHead3.flange_b, air_side2.flange_b) annotation (Line(points={{
+          64,-48},{70,-48},{70,-14},{60,-14},{60,-30},{64,-30}}, color={0,127,0}));
+  connect(cushionHead3.port_b, envSinkB.port) annotation (Line(points={{54,-58},
+          {96,-58},{96,56},{90,56},{90,60}}, color={255,0,0}));
   annotation (         Icon(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}), graphics={
         Rectangle(
@@ -349,4 +397,4 @@ equation
           lineColor={0,0,0},
           fillColor={135,135,135},
           fillPattern=FillPattern.Solid)}));
-end TeleCylinder2Stage;
+end TeleCylinder2Stage3;

@@ -6,12 +6,16 @@ model TeleCylinderTest
 
   Modelica.Mechanics.Translational.Components.Fixed fixed
     annotation (Placement(transformation(extent={{-22,50},{-2,70}})));
-  Components.Cylinders.TeleCylinder2Stage teleCylinder1_1(
+  Components.Cylinders.TeleCylinder2Stage3 teleCylinder1_1(
+    damping=0,
+    stopStiffness=1e6,
+    stopDamping=1e6,
+    useCushionRod=false,
     initType=Types.RevoluteInit.Position,
     pistonMass=0.1,
-    s_init1=0.5,
-    s_init2=0,
-    q_nom=1e-4) annotation (Placement(transformation(extent={{24,40},{64,80}})));
+    s_init1=0.1,
+    s_init2=0.1,
+    q_nom=1e-4) annotation (Placement(transformation(extent={{20,40},{60,80}})));
   OpenHydraulics.Basic.FluidPower2MechRotConst pump(Dconst=5e-4)
                                                          annotation (Placement(transformation(extent={{-24,-46},
             {-4,-26}})));
@@ -38,7 +42,7 @@ model TeleCylinderTest
         extent={{-10,-10},{10,10}},
         rotation=180,
         origin={168,50})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=-600*time)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=-100*time)
     annotation (Placement(transformation(extent={{162,8},{182,28}})));
   Components.Sensors.PressureSensor pressureSensor(pHigh=10000000)
     annotation (Placement(transformation(extent={{-32,12},{-12,32}})));
@@ -47,7 +51,7 @@ initial equation
 
 equation
   connect(fixed.flange, teleCylinder1_1.flange_a)
-    annotation (Line(points={{-12,60},{24,60}}, color={0,127,0}));
+    annotation (Line(points={{-12,60},{20,60}}, color={0,127,0}));
   connect(pump.port_a,circuitTank. port_b) annotation (Line(points={{-14,-46},
           {-14,-80},{10,-80}}, color={255,0,0}));
   connect(ramp.y, position.phi_ref)
@@ -64,18 +68,18 @@ equation
     annotation (Line(points={{10,-56},{25,-56},{25,-56},{40,-56}}, color={255,
           0,0}));
   connect(teleCylinder1_1.port_a, j1.port[3])
-    annotation (Line(points={{28,44},{10,44},{10,-15.6667}}, color={255,0,0}));
+    annotation (Line(points={{24,44},{10,44},{10,-15.6667}}, color={255,0,0}));
   connect(teleCylinder1_1.flange_b, mass.flange_a)
-    annotation (Line(points={{64,60},{116,60}}, color={0,127,0}));
+    annotation (Line(points={{60,60},{116,60}}, color={0,127,0}));
   connect(force.flange, mass.flange_b) annotation (Line(points={{158,50},{142,
           50},{142,60},{136,60}}, color={0,127,0}));
   connect(realExpression.y, force.f) annotation (Line(points={{183,18},{198,18},
           {198,50},{180,50}}, color={0,0,127}));
   connect(teleCylinder1_1.port_a, pressureSensor.port_a) annotation (Line(
-        points={{28,44},{10,44},{10,12},{-22,12}}, color={255,0,0}));
+        points={{24,44},{10,44},{10,12},{-22,12}}, color={255,0,0}));
 annotation (
     experiment(
-      StopTime=100,
+      StopTime=50,
       Tolerance=1e-08,
       __Dymola_Algorithm="Cvode"));
 end TeleCylinderTest;

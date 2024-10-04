@@ -26,12 +26,13 @@ partial model PartialValve4_3pos "Partial class for building 4-port 3-position v
   parameter Boolean useCheckValve = true "true = use check valve on port P"
     annotation (Dialog(tab="Config Options"));
 
-  extends OpenHydraulics.Components.Valves.DirectionalValves.BaseClasses.Valve4_3posInterface;
+  extends
+    OpenHydraulics.Components.Valves.DirectionalValves.BaseClasses.Valve4_3posInterface;
 
   // the spool models
   OpenHydraulics.Basic.VariableRestrictionSeriesValve P2A(
     final q_nom=q_nom*q_fraction_P2A,
-    table=[0,0; 1,1],
+    table=[-1,0; 0,0; 1,1],
     D_nom=0.01,
     dp_nom=dp_nom,
     min_contr=0,
@@ -39,7 +40,7 @@ partial model PartialValve4_3pos "Partial class for building 4-port 3-position v
     p_init=p_init)
     annotation (
     Dialog(tab="Metering",group="Spool"), Placement(transformation(
-        origin={-40,0},
+        origin={-68,0},
         extent={{-8,-8},{8,8}},
         rotation=90)));
 
@@ -53,13 +54,13 @@ partial model PartialValve4_3pos "Partial class for building 4-port 3-position v
     p_init=p_init)
     annotation (
     Dialog(tab="Metering",group="Spool"), Placement(transformation(
-        origin={40,0},
+        origin={40,-18},
         extent={{-8,8},{8,-8}},
         rotation=270)));
 
   OpenHydraulics.Basic.VariableRestrictionSeriesValve P2B(
     final q_nom=q_nom*q_fraction_P2B,
-    table=[-1,1; 0,0],
+    table=[-1,1; 0,0; 1,0],
     D_nom=0.01,
     dp_nom=dp_nom,
     min_contr=-1,
@@ -67,7 +68,7 @@ partial model PartialValve4_3pos "Partial class for building 4-port 3-position v
     p_init=p_init)
     annotation (
     Dialog(tab="Metering",group="Spool"), Placement(transformation(
-          extent={{-28,-22},{-12,-38}})));
+          extent={{-28,-38},{-12,-54}})));
 
   OpenHydraulics.Basic.VariableRestriction A2T(
     final q_nom=q_nom*q_fraction_A2T,
@@ -79,7 +80,7 @@ partial model PartialValve4_3pos "Partial class for building 4-port 3-position v
     p_init=p_init)
     annotation (
     Dialog(tab="Metering",group="Spool"), Placement(transformation(
-          extent={{-28,22},{-12,38}})));
+          extent={{-14,38},{2,54}})));
 
   // configurable components
 
@@ -115,46 +116,50 @@ initial equation
 
 equation
   connect(dynamicResponse.y, A2T.control)
-    annotation (Line(points={{65,0},{50,0},{50,12},{30,12},{30,0},{-20,
-          0},{-20,23.6}}, color={0,0,127}));
+    annotation (Line(points={{65,0},{50,0},{50,12},{30,12},{30,0},{-6,0},{-6,
+          39.6}},         color={0,0,127}));
   connect(dynamicResponse.y, B2T.control)
-    annotation (Line(points={{65,0},{50,0},{50,-1.17566e-015},{46.4,-1.17566e-015}},
+    annotation (Line(points={{65,0},{54,0},{54,-18},{46.4,-18}},
                           color={0,0,127}));
   connect(dynamicResponse.y, P2A.control)
-    annotation (Line(points={{65,0},{50,0},{50,12},{30,12},{30,0},{-28,
-          0},{-28,-3.91887e-016},{-33.6,-3.91887e-016}}, color={0,0,127}));
+    annotation (Line(points={{65,0},{50,0},{50,12},{30,12},{30,0},{-61.6,0}},
+                                                         color={0,0,127}));
   connect(dynamicResponse.y, P2B.control)
-    annotation (Line(points={{65,0},{50,0},{50,12},{30,12},{30,0},{-20,
-          0},{-20,-23.6}}, color={0,0,127}));
+    annotation (Line(points={{65,0},{50,0},{50,12},{30,12},{30,0},{-20,0},{-20,
+          -39.6}},         color={0,0,127}));
   connect(j2.port[1], portA)
-    annotation (Line(points={{-40,59.3333},{-40,80}}, color={255,0,0}));
+    annotation (Line(points={{-40,59.6667},{-40,80}}, color={255,0,0}));
   connect(portB,j3. port[1])
-    annotation (Line(points={{40,80},{40,59.3333}}, color={255,0,0}));
+    annotation (Line(points={{40,80},{40,59.6667}}, color={255,0,0}));
   connect(portT,j4. port[1])
-    annotation (Line(points={{40,-80},{40,-60.6667}}, color={255,0,0}));
+    annotation (Line(points={{40,-80},{40,-60.3333}}, color={255,0,0}));
   connect(j4.port[2], B2T.port_b)
-    annotation (Line(points={{40,-60},{40,-8}}, color={255,0,0}));
+    annotation (Line(points={{40,-60},{40,-26}},color={255,0,0}));
   connect(j3.port[3], B2T.port_a)
-    annotation (Line(points={{40,60.6667},{40,8}}, color={255,0,0}));
+    annotation (Line(points={{40,60.3333},{40,-10}},
+                                                   color={255,0,0}));
   connect(A2T.port_a, j2.port[3])
-    annotation (Line(points={{-28,30},{-40,30},{-40,60.6667}}, color={
+    annotation (Line(points={{-14,46},{-40,46},{-40,60.3333}}, color={
           255,0,0}));
   connect(A2T.port_b, j4.port[3])
-    annotation (Line(points={{-12,30},{-12,30},{12,-30},{40,-30},{40,-59.3333}},
+    annotation (Line(points={{2,46},{54,46},{54,-46},{40,-46},{40,-59.6667}},
                       color={255,0,0}));
   connect(control, dynamicResponse.u)
     annotation (Line(points={{110,0},{88,0}}, color={0,0,127}));
   connect(P2A.port_a, j1.port[2])
-    annotation (Line(points={{-40,-8},{-40,-60}}, color={255,0,0}));
+    annotation (Line(points={{-68,-8},{-68,-46},{-40,-46},{-40,-60}},
+                                                  color={255,0,0}));
   connect(P2B.port_a, j1.port[3])
-     annotation (Line(points={{-28,-30},{-40,-30},{-40,-59.3333}},
+     annotation (Line(points={{-28,-46},{-40,-46},{-40,-59.6667}},
         color={255,0,0}));
   connect(portP, j1.port[1])
-    annotation (Line(points={{-40,-80},{-40,-60.6667}}, color={255,0,0}));
+    annotation (Line(points={{-40,-80},{-40,-60.3333}}, color={255,0,0}));
   connect(P2A.port_b, j2.port[2])
-    annotation (Line(points={{-40,8},{-40,60}}, color={255,0,0}));
+    annotation (Line(points={{-68,8},{-68,46},{-40,46},{-40,60}},
+                                                color={255,0,0}));
   connect(P2B.port_b, j3.port[2])
-    annotation (Line(points={{-12,-30},{12,30},{40,30},{40,60}}, color=
+    annotation (Line(points={{-12,-46},{-2,-46},{-2,34},{40,34},{40,60}},
+                                                                 color=
           {255,0,0}));
   annotation (Diagram(graphics={
         Text(

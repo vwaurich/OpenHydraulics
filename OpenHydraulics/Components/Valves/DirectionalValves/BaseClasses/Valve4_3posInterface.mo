@@ -12,12 +12,13 @@ partial model Valve4_3posInterface "Interface for 4-port 3-position valve"
   OpenHydraulics.Interfaces.FluidPort portB
     annotation (Placement(transformation(extent={{30,70},{50,90}})));
   Modelica.Blocks.Interfaces.RealInput control
-    annotation (Placement(transformation(extent={{130,-20},{90,20}})));
+    annotation (Placement(transformation(extent=DynamicSelect({{130,-20},{90,20}},{{130+control*60,-20},{90+control*60,20}}))));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={
             {-100,-100},{100,100}}), graphics={
         Rectangle(
-          extent={{90,20},{130,-20}},
+          extent=DynamicSelect({{90,20},{130,-20}}, {{90 + control*60,20},{130 +
+              control*60,-20}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
@@ -46,17 +47,17 @@ partial model Valve4_3posInterface "Interface for 4-port 3-position valve"
           fillPattern=FillPattern.Solid,
           textString="P"),
         Rectangle(
-          extent={{-90,30},{-30,-30}},
+          extent=DynamicSelect({{-90,30},{-30,-30}},{{-90+control*60,30},{-30+control*60,-30}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent={{-30,30},{30,-30}},
+          extent=DynamicSelect({{-30,30},{30,-30}},{{-30+control*60,30},{30+control*60,-30}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent={{30,30},{90,-30}},
+          extent=DynamicSelect({{30,30},{90,-30}},{{30+control*60,30},{90+control*60,-30}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid)}));

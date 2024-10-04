@@ -57,19 +57,19 @@ equation
     annotation (Line(points={{24,20},{24,42}}, color={255,0,0}));
   connect(doubleActingCylinder.port_b, lineB.port_b)
     annotation (Line(points={{40,42},{40,20}}, color={255,0,0}));
-  connect(pump.port_b, j1.port[1]) annotation (Line(points={{-14,-26},{-14,
-          -16},{10,-16},{10,-16.6667}}, color={255,0,0}));
+  connect(pump.port_b, j1.port[1]) annotation (Line(points={{-14,-26},{-14,-16},
+          {10,-16},{10,-16}},           color={255,0,0}));
   connect(reliefValve.port_a, j1.port[2]) annotation (Line(points={{10,-36},{
           10,-26.025},{10,-16},{10,-16}}, color={255,0,0}));
-  connect(lineA.port_a, j1.port[3]) annotation (Line(points={{24,0},{24,-16},
-          {10,-16},{10,-15.3333}}, color={255,0,0}));
-  connect(circuitTank.port_a, j2.port[1]) annotation (Line(points={{30,-80},{
-          40,-80},{40,-56.6667}}, color={255,0,0}));
+  connect(lineA.port_a, j1.port[3]) annotation (Line(points={{24,0},{24,-16},{
+          10,-16},{10,-16}},       color={255,0,0}));
+  connect(circuitTank.port_a, j2.port[1]) annotation (Line(points={{30,-80},{40,
+          -80},{40,-56}},         color={255,0,0}));
   connect(reliefValve.port_b, j2.port[2])
     annotation (Line(points={{10,-56},{25,-56},{25,-56},{40,-56}}, color={255,
           0,0}));
-  connect(lineB.port_a, j2.port[3]) annotation (Line(points={{40,0},{40,
-          -55.3333}}, color={255,0,0}));
+  connect(lineB.port_a, j2.port[3]) annotation (Line(points={{40,0},{40,-56}},
+                      color={255,0,0}));
 annotation (
     experiment(StopTime=10, Tolerance=1e-006));
 end DoubleActingCylinderTestSimple1;

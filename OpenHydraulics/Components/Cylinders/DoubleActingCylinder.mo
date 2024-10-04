@@ -182,12 +182,16 @@ model DoubleActingCylinder
     n_ports=2)
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
 
-  Real pos = piston.s/strokeLength;
 
   extends OpenHydraulics.Interfaces.PartialFluidComponent;
 
 protected
   outer OpenHydraulics.Circuits.Environment environment;
+    Real aux_pos = piston.s/strokeLength;
+    Real ds_pos1 = -80+aux_pos*160;
+    Real ds_pos2 = -88+aux_pos*158;
+    Real ds_pos3 = -70+aux_pos*158;
+
 
 initial equation
   assert(cylinderChamberHead.s_rel>=0,"Initial position is smaller than zero");
@@ -263,16 +267,16 @@ equation
         color={255,0,0}));
   connect(envSinkB.port, leakage_Rod2Env.port_a)
     annotation (Line(points={{80,-20},{74,-20}}, color={255,0,0}));
-  connect(port_a,jA. port[1]) annotation (Line(points={{-80,-80},{-40,-80},
-          {-40,-80.5}}, color={255,0,0}));
-  connect(port_b,jB. port[1]) annotation (Line(points={{80,-80},{40,-80},{
-          40,-80.5}}, color={255,0,0}));
+  connect(port_a,jA. port[1]) annotation (Line(points={{-80,-80},{-40,-80},{-40,
+          -80.25}},     color={255,0,0}));
+  connect(port_b,jB. port[1]) annotation (Line(points={{80,-80},{40,-80},{40,
+          -80.25}},   color={255,0,0}));
 
   connect(cylinderChamberHead.port[1], cushionHead.port_a) annotation (Line(
-        points={{-40,-0.75},{-40,-40}}, color={255,0,0}));
+        points={{-40,-0.4},{-40,-40}},  color={255,0,0}));
 
-  connect(cushionHead.port_b, jA.port[2]) annotation (Line(points={{-40,-60},
-          {-40,-79.5}}, color={255,0,0}));
+  connect(cushionHead.port_b, jA.port[2]) annotation (Line(points={{-40,-60},{
+          -40,-79.75}}, color={255,0,0}));
   connect(cylinderChamberHead.flange_a, cushionHead.flange_a) annotation (Line(
         points={{-50,0},{-50,-50}}, color={0,127,0}));
   connect(cylinderChamberHead.flange_b, cushionHead.flange_b) annotation (Line(
@@ -281,20 +285,20 @@ equation
         points={{30,0},{30,-50}}, color={0,127,0}));
   connect(cylinderChamberRod.flange_b, cushionRod.flange_b) annotation (Line(
         points={{50,0},{50,-50}}, color={0,127,0}));
-  connect(cushionRod.port_b, jB.port[2]) annotation (Line(points={{40,-60},
-          {40,-79.5}}, color={255,0,0}));
+  connect(cushionRod.port_b, jB.port[2]) annotation (Line(points={{40,-60},{40,
+          -79.75}},    color={255,0,0}));
   connect(cylinderChamberRod.port[1], cushionRod.port_a) annotation (Line(
-        points={{40,-0.75},{40,-40}}, color={255,0,0}));
+        points={{40,-0.4},{40,-40}},  color={255,0,0}));
   connect(leakage_Head2Rod.port_b, cylinderChamberRod.port[2]) annotation (Line(
         points={{10,-20},{38,-20},{38,0},{40,0},{40,-0.05}}, color={255,0,0}));
   connect(leakage_Head2Rod.port_a, cylinderChamberHead.port[2]) annotation (Line(
         points={{-10,-20},{-38,-20},{-38,0},{-40,0},{-40,-0.05}}, color={
           255,0,0}));
   connect(leakage_Head2Env.port_b, cylinderChamberHead.port[3]) annotation (Line(
-        points={{-54,-20},{-42,-20},{-42,0},{-40,0},{-40,0.65}}, color={255,
+        points={{-54,-20},{-42,-20},{-42,0},{-40,0},{-40,0.3}},  color={255,
           0,0}));
   connect(leakage_Rod2Env.port_b, cylinderChamberRod.port[3]) annotation (Line(
-        points={{54,-20},{42,-20},{42,0},{40,0},{40,0.65}}, color={255,0,0}));
+        points={{54,-20},{42,-20},{42,0},{40,0},{40,0.3}},  color={255,0,0}));
   annotation (         Icon(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}), graphics={
         Rectangle(
@@ -308,12 +312,12 @@ equation
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent=DynamicSelect({{100,10},{0,-10}},{{100,10},{-80+pos*160,-10}}),
+          extent=DynamicSelect({{100,10},{0,-10}},{{100,10},{ds_pos1,-10}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
         Rectangle(
-          extent=DynamicSelect({{-18,39},{0,-39}},{{-88+pos*158,39},{-70+pos*158,-39}}),
+          extent=DynamicSelect({{-18,39},{0,-39}},{{ds_pos2,39},{ds_pos3,-39}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),

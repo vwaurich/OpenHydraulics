@@ -113,16 +113,16 @@ equation
           lineColor={255,255,255},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-40,40},{40,-40}},
+        Rectangle(extent=
+                 DynamicSelect({{-40,40},{40,-40}}, if port_a.m_flow>0 then {{-40,60},{40,-20}} else {{-40,40},{40,-40}}),
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
         Line(points={{-40,0},{-100,0}}, color={0,0,0}),
         Line(points={{100,0},{40,0}}, color={0,0,0}),
-        Line(points={{-40,-20},{40,-20}}, color={0,0,0}),
+        Line(points=DynamicSelect({{-40,-20},{40,-20}}, if port_a.m_flow>0 then {{-40,0},{40,0}} else {{-40,-20},{40,-20}}), color={0,0,0}),
         Polygon(
-          points={{40,-20},{24,-16},{24,-24},{40,-20}},
+          points=DynamicSelect({{40,-20},{24,-16},{24,-24},{40,-20}}, if port_a.m_flow>0 then {{40,0},{24,4},{24,-4},{40,0}} else {{40,-20},{24,-16},{24,-24},{40,-20}}),
           lineColor={0,0,0},
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
