@@ -53,7 +53,8 @@ model V4_3CCLSHydAntiCavitation
   Basic.VarPressureSource pressLS
     annotation (Placement(transformation(extent={{-10,40},{10,60}})));
 
-  extends OpenHydraulics.Components.Valves.DirectionalValves.BaseClasses.PartialValve4_3pos(
+  extends
+    OpenHydraulics.Components.Valves.DirectionalValves.BaseClasses.PartialValve4_3pos(
     j2(n_ports=5),
     j4(n_ports=7),
     j3(n_ports=5));
@@ -92,48 +93,73 @@ equation
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{
             -100,-100},{100,100}}), graphics={
-        Line(points={{-78,-30},{-78,30}}, color={0,0,0}),
-        Line(points={{-42,-30},{-42,30}}, color={0,0,0}),
+        Line(points=DynamicSelect({{-78,-30},{-78,30}}, {{-78 + control*60,-30},
+              {-78 + control*60,30}}), color={0,0,0}),
+        Line(points=DynamicSelect({{-42,-30},{-42,30}}, {{-42 + control*60,-30},
+              {-42 + control*60,30}}), color={0,0,0}),
         Polygon(
-          points={{-78,30},{-84,10},{-72,10},{-78,30}},
+          points=DynamicSelect({{-78,30},{-84,10},{-72,10},{-78,30}}, {{-78 +
+              control*60,30},{-84 + control*60,10},{-72 + control*60,10},{-78
+               + control*60,30}}),
           lineColor={0,0,0},
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
         Polygon(
-          points={{-42,-30},{-48,-10},{-36,-10},{-42,-30}},
+          points=DynamicSelect({{-42,-30},{-48,-10},{-36,-10},{-42,-30}}, {{-42
+               + control*60,-30},{-48 + control*60,-10},{-36 + control*60,-10},
+              {-42 + control*60,-30}}),
           lineColor={0,0,0},
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
-        Line(points={{78,-30},{42,30}}, color={0,0,0}),
-        Line(points={{42,-30},{78,30}}, color={0,0,0}),
+        Line(points=DynamicSelect({{78,-30},{42,30}}, {{78 + control*60,-30},{
+              42 + control*60,30}}), color={0,0,0}),
+        Line(points=DynamicSelect({{42,-30},{78,30}}, {{42 + control*60,-30},{
+              78 + control*60,30}}), color={0,0,0}),
         Polygon(
-          points={{78,-30},{62,-14},{72,-8},{78,-30}},
+          points=DynamicSelect({{78,-30},{62,-14},{72,-8},{78,-30}}, {{78 +
+              control*60,-30},{62 + control*60,-14},{72 + control*60,-8},{78 +
+              control*60,-30}}),
           lineColor={0,0,0},
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
         Polygon(
-          points={{78,30},{72,8},{62,14},{78,30}},
+          points=DynamicSelect({{78,30},{72,8},{62,14},{78,30}}, {{78 + control
+              *60,30},{72 + control*60,8},{62 + control*60,14},{78 + control*60,
+              30}}),
           lineColor={0,0,0},
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
-        Line(points={{-18,-30},{-18,-12}}, color={0,0,0}),
-        Line(points={{-24,-12},{-12,-12}}, color={0,0,0}),
-        Line(points={{-24,12},{-12,12}}, color={0,0,0}),
-        Line(points={{12,12},{24,12}}, color={0,0,0}),
-        Line(points={{-18,12},{-18,30}}, color={0,0,0}),
-        Line(points={{18,12},{18,30}}, color={0,0,0}),
+        Line(points=DynamicSelect({{-18,-30},{-18,-12}}, {{-18 + control*60,-30},
+              {-18 + control*60,-12}}), color={0,0,0}),
+        Line(points=DynamicSelect({{-24,-12},{-12,-12}}, {{-24 + control*60,-12},
+              {-12 + control*60,-12}}), color={0,0,0}),
+        Line(points=DynamicSelect({{-24,12},{-12,12}}, {{-24 + control*60,12},{
+              -12 + control*60,12}}), color={0,0,0}),
+        Line(points=DynamicSelect({{12,12},{24,12}}, {{12 + control*60,12},{24
+               + control*60,12}}), color={0,0,0}),
+        Line(points=DynamicSelect({{-18,12},{-18,30}}, {{-18 + control*60,12},{
+              -18 + control*60,30}}), color={0,0,0}),
+        Line(points=DynamicSelect({{18,12},{18,30}}, {{18 + control*60,12},{18
+               + control*60,30}}), color={0,0,0}),
         Line(points={{-18,30},{-18,60},{-40,60},{-40,80}}, color={255,0,0}),
         Line(points={{18,30},{18,60},{40,60},{40,80}}, color={255,0,0}),
         Line(points={{-18,-30},{-18,-60},{-40,-60},{-40,-80}}, color={255,
               0,0}),
         Line(points={{18,-30},{18,-60},{40,-60},{40,-80}}, color={255,0,0}),
-        Line(points={{-60,4},{-60,30}}, color={0,0,0}),
-        Line(points={{-78,4},{-60,4}}, color={0,0,0}),
-        Line(points={{60,10},{60,30}}, color={0,0,0}),
-        Line(points={{60,10},{66,10}}, color={0,0,0}),
-        Line(points={{18,-30},{0,30}}, color={0,0,0}),
+        Line(points=DynamicSelect({{-60,4},{-60,30}}, {{-60 + control*60,4},{-60
+               + control*60,30}}), color={0,0,0}),
+        Line(points=DynamicSelect({{-78,4},{-60,4}}, {{-78 + control*60,4},{-60
+               + control*60,4}}), color={0,0,0}),
+        Line(points=DynamicSelect({{60,10},{60,30}}, {{60 + control*60,10},{60
+               + control*60,30}}), color={0,0,0}),
+        Line(points=DynamicSelect({{60,10},{66,10}}, {{60 + control*60,10},{66
+               + control*60,10}}), color={0,0,0}),
+        Line(points=DynamicSelect({{18,-30},{0,30}}, {{18 + control*60,-30},{0
+               + control*60,30}}), color={0,0,0}),
         Polygon(
-          points={{18,-30},{6,-12},{18,-8},{18,-30}},
+          points=DynamicSelect({{18,-30},{6,-12},{18,-8},{18,-30}}, {{18 +
+              control*60,-30},{6 + control*60,-12},{18 + control*60,-8},{18 +
+              control*60,-30}}),
           lineColor={0,0,0},
           fillColor={0,0,0},
           fillPattern=FillPattern.Solid),
